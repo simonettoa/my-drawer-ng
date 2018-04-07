@@ -41,7 +41,7 @@ export class MyDrawerItemComponent implements OnInit {
     onNavItemTap(navItemRoute: string): void {
 
         // if coming from browse start the gc
-        if(this.shared.currentPage === "/browse" && this.shared.doTheGargbageCollection) {
+        if(this.shared.currentPage === "/browse") {
             this.shared.startGarbageCollection();
         }
 

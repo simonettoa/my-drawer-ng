@@ -19,10 +19,21 @@ export class AppComponent {
     }
 
     startGarbageCollection() {
-        setTimeout(() => {
-            // clear the GC
-            console.log("*** startGarbageCollection - doing the GC!");
-            utils.GC();
-        }, 2000);
+        if(this.doTheGargbageCollection) {
+            setTimeout(() => {
+                // clear the GC
+                console.log("*** startGarbageCollection - doing the GC!");
+                utils.GC();
+            }, 2000);
+        } else {
+            console.log("GC not possible - doTheGargbageCollection false!!!");
+        }
     }
+}
+
+
+export class LatLng {
+    constructor(
+       public lat: number,
+       public lng: number) {}
 }

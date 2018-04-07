@@ -7,6 +7,8 @@ import { AppComponent } from "./app.component";
 import { registerElement } from "nativescript-angular/element-registry";
 registerElement("Mapbox", () => require("nativescript-mapbox").MapboxView);
 
+import { ModalMapComponent } from "./shared/modal-map-page/modal-map-page";
+
 @NgModule({
     bootstrap: [
         AppComponent
@@ -16,8 +18,10 @@ registerElement("Mapbox", () => require("nativescript-mapbox").MapboxView);
         AppRoutingModule
     ],
     declarations: [
-        AppComponent
+        AppComponent,
+        ModalMapComponent
     ],
+    entryComponents: [ModalMapComponent],
     schemas: [
         NO_ERRORS_SCHEMA
     ]

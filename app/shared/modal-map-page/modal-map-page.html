@@ -1,0 +1,30 @@
+
+<GridLayout class="page page-content" rows="auto, *">
+
+    <StackLayout>
+        <Button text="DONE" (tap)="closeModal()" class="custom-button"></Button>
+    </StackLayout>
+    
+
+    <StackLayout row="1">
+        <ContentView height="98%" width="98%" >
+            <Mapbox
+                #map
+                accessToken="your-token"
+                mapStyle="outdoors"
+                hideCompass="false"
+                zoomLevel="12"
+                showUserLocation="true"
+                hideLogo="true"
+                disableZoom="false"
+                hideAttribution="true"
+                disableRotation="false"
+                disableScroll="false"
+                disableTilt="false"
+                (mapReady)="onMapReady($event)">
+            </Mapbox>
+        </ContentView>
+    </StackLayout>
+
+</GridLayout>
+

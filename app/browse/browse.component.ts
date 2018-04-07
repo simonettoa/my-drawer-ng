@@ -3,6 +3,7 @@ import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-u
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
 import { Mapbox } from "nativescript-mapbox";
+import { LatLng } from "../app.component";
 
 @Component({
     selector: "Browse",
@@ -118,10 +119,4 @@ export class BrowseComponent implements OnInit {
             animated: true
         });
     } 
-}
-
-export class LatLng {
-    constructor(
-       public lat: number,
-       public lng: number) {}
 }
