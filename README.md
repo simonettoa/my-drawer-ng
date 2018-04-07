@@ -52,3 +52,6 @@ zoom on map			-> 467
 other page NO GC 	-> 469 (home, changed gc var to true)
 back to browse		-> 518
 other page with GC 	-> 517
+
+
+So with or without the gc (garbage collection) function the memory is not changing a lot. This is a big problem in sidedrawer app - any suggestion use the map without creating every time it ?
