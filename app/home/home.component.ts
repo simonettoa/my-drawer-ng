@@ -2,6 +2,9 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-ui/sidedrawer";
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
+
+import { AppComponent } from "../app.component";
+
 @Component({
     selector: "Home",
     moduleId: module.id,
@@ -15,7 +18,13 @@ export class HomeComponent implements OnInit {
     @ViewChild("drawer") drawerComponent: RadSideDrawerComponent;
 
     private _sideDrawerTransition: DrawerTransitionBase;
+    shared: AppComponent;
 
+    constructor(private _shared: AppComponent) {
+        this.shared = _shared;
+
+        console.log("app.component - doTheGargbageCollection -> " + this.shared.doTheGargbageCollection);
+    }
     /* ***********************************************************
     * Use the sideDrawerTransition property to change the open/close animation of the drawer.
     *************************************************************/
@@ -33,5 +42,13 @@ export class HomeComponent implements OnInit {
     *************************************************************/
     onDrawerButtonTap(): void {
         this.drawerComponent.sideDrawer.showDrawer();
+    }
+
+    changeGcStatus() {
+        this.shared.changeGcStatus();
+    }
+
+    forceGc() {
+        this.shared.startGarbageCollection();
     }
 }

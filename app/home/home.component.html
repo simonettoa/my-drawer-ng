@@ -31,7 +31,13 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     Use the tkMainContent directive to display the content of the page when you have an app drawer.
     -->
     <GridLayout class="page page-content" tkMainContent>
-        <Label class="page-icon fa" text="&#xf015;"></Label>
-        <Label class="page-placeholder" text="<!-- Page content goes here -->"></Label>
+        <StackLayout>
+            <Button text="change GC var" (tap)="changeGcStatus()">
+            </Button>
+
+            <Button text="force GC" (tap)="forceGc()">
+            </Button>
+        </StackLayout>
+
     </GridLayout>
 </RadSideDrawer>

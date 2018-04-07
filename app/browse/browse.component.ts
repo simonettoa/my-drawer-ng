@@ -1,6 +1,8 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-ui/sidedrawer";
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
+
+import { Mapbox } from "nativescript-mapbox";
 
 @Component({
     selector: "Browse",
@@ -8,17 +10,17 @@ import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
     templateUrl: "./browse.component.html"
 })
 export class BrowseComponent implements OnInit {
-    /* ***********************************************************
-    * Use the @ViewChild decorator to get a reference to the drawer component.
-    * It is used in the "onDrawerButtonTap" function below to manipulate the drawer.
-    *************************************************************/
     @ViewChild("drawer") drawerComponent: RadSideDrawerComponent;
 
-    private _sideDrawerTransition: DrawerTransitionBase;
+    @ViewChild("map") mapboxRef: ElementRef;
+    private get mapbox(): Mapbox {
+        return this.mapboxRef.nativeElement;
+    }
 
-    /* ***********************************************************
-    * Use the sideDrawerTransition property to change the open/close animation of the drawer.
-    *************************************************************/
+    private _sideDrawerTransition: DrawerTransitionBase;
+    currLongitude: number = 0;
+    currLatitude: number = 0;
+
     ngOnInit(): void {
         this._sideDrawerTransition = new SlideInOnTopTransition();
     }
@@ -27,11 +29,99 @@ export class BrowseComponent implements OnInit {
         return this._sideDrawerTransition;
     }
 
-    /* ***********************************************************
-    * According to guidelines, if you have a drawer on your page, you should always
-    * have a button that opens it. Use the showDrawer() function to open the app drawer section.
-    *************************************************************/
     onDrawerButtonTap(): void {
         this.drawerComponent.sideDrawer.showDrawer();
     }
+
+    onMapReady(args: any) {
+        console.log("enter onMapReady()");
+
+        this.getUserPosition();
+    }
+
+
+    getUserPosition() {
+
+        setTimeout(() => {
+            this.mapbox.getUserLocation().then((userLocation) => {
+
+                console.log("Current user location: " +  userLocation.location.lat + ", " + userLocation.location.lng);
+                // console.log("Current user speed: " +  userLocation.speed);
+    
+                this.currLatitude = userLocation.location.lat;
+                this.currLongitude = userLocation.location.lng; 
+                
+                this.addMarkersAndPolylines();
+    
+            }, (error) => {
+                console.log("error getting position - still load the poi");
+
+                this.addMarkersAndPolylines();
+            });
+        }, 1500);
+
+    }
+
+    addMarkersAndPolylines() {
+        
+        setTimeout(() => {
+            console.log("add markers!");
+
+            // add polylines
+            let arrayPoints = new Array<LatLng>();
+
+            arrayPoints.push(new LatLng(50.477735, 13.437718), new LatLng(50.452, 13.41),);
+
+            arrayPoints.forEach((p) => {
+                this.mapbox.addMarkers([
+                {
+                    lat: p.lat,
+                    lng: p.lng,
+                }]);
+            });
+
+            this.setViewPort(arrayPoints);
+        }, 500);
+    }
+
+    setViewPort(arrP: Array<LatLng>) {
+        let shift = 0.15;
+        let lats: Array<number> = [];
+        let longs: Array<number> = [];
+
+        console.log("set viewport!");
+
+        arrP.forEach((p) => {
+            lats.push(p.lat);
+            longs.push(p.lng);
+        });
+
+        if(this.currLatitude !== 0 && this.currLongitude !== 0) {
+            arrP.push(new LatLng(this.currLatitude, this.currLongitude));
+        }
+        
+  
+        let maxLat = Math.max(...lats) + shift;
+        let minLat = Math.min(...lats) - shift;
+        let maxLon = Math.max(...longs) + shift;
+        let minLon = Math.min(...longs) - shift;
+
+        console.log("mLat " + maxLat + " |mLon " + maxLon + " | minLat " + minLat + " | minLon " + minLon);
+
+        this.mapbox.setViewport({
+            bounds: {
+                north: maxLat,
+                east: maxLon,
+                south: minLat,
+                west: minLon
+            },
+            animated: true
+        });
+    } 
+}
+
+export class LatLng {
+    constructor(
+       public lat: number,
+       public lng: number) {}
 }

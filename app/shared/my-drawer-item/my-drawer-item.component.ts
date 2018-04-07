@@ -1,6 +1,9 @@
 import { Component, Input, OnInit } from "@angular/core";
 import { RouterExtensions } from "nativescript-angular/router";
 
+
+import { AppComponent } from "../../app.component";
+
 /* ***********************************************************
 * Keep data that is displayed as drawer items in the MyDrawer component class.
 *************************************************************/
@@ -16,7 +19,11 @@ export class MyDrawerItemComponent implements OnInit {
     @Input() icon: string;
     @Input() isSelected: boolean;
 
-    constructor(private routerExtensions: RouterExtensions) {
+    shared: AppComponent;
+
+    constructor(private routerExtensions: RouterExtensions,
+                private _shared: AppComponent) {
+        this.shared = _shared;
 
     }
 
@@ -32,6 +39,14 @@ export class MyDrawerItemComponent implements OnInit {
     * based on the tapped navigationItem's route.
     *************************************************************/
     onNavItemTap(navItemRoute: string): void {
+
+        // if coming from browse start the gc
+        if(this.shared.currentPage === "/browse" && this.shared.doTheGargbageCollection) {
+            this.shared.startGarbageCollection();
+        }
+
+        this.shared.currentPage = navItemRoute;
+
         this.routerExtensions.navigate([navItemRoute], {
             transition: {
                 name: "fade"
