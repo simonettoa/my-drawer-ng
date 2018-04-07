@@ -55,3 +55,12 @@ other page with GC 	-> 517
 
 
 So with or without the gc (garbage collection) function the memory is not changing a lot. This is a big problem in sidedrawer app - any suggestion use the map without creating every time it ?
+
+
+***
+UPDATE
+
+A better solution is to call the mapbox via modal page as it's called in search page - the utils.gc() function has to be called (test it with or without setting the variable from the home page)
+
+***
+
