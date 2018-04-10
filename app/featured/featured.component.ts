@@ -127,23 +127,25 @@ export class FeaturedComponent implements OnInit {
     }
 
     destroyAll() {
-        this.mapboxFromAppComp.destroy().then(() => {
-            console.log("mapboxFromAppComp destroyed!");
-
-        }, (error) => {
-            console.log("mapboxFromAppComp.destroyAll - error " + error);
-
-        });
-
-        this.shared.mapboxCode.destroy().then((res) => {
-            console.log("shared map destroyed!");
-
-        }, (error) => {
-            console.log("mapboxFromAppComp.destroyAll - error " + error);
-
-        });
-
-        this.shared.mapLoaded = false;
+        if(this.shared.mapLoaded) {
+            this.mapboxFromAppComp.destroy().then(() => {
+                console.log("mapboxFromAppComp destroyed!");
+    
+            }, (error) => {
+                console.log("mapboxFromAppComp.destroyAll - error " + error);
+    
+            });
+    
+            this.shared.mapboxCode.destroy().then((res) => {
+                console.log("shared map destroyed!");
+    
+            }, (error) => {
+                console.log("mapboxFromAppComp.destroyAll - error " + error);
+    
+            });
+    
+            this.shared.mapLoaded = false;
+        }
     }
 
     showLocalMap() {

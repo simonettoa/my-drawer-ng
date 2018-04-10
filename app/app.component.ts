@@ -6,7 +6,7 @@ import { isAndroid } from "platform";
 
 
 let ACCESS_TOKEN = 
-  "";
+  "your-token";
 
 @Component({
     selector: "ns-app",

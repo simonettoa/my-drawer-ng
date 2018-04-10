@@ -64,3 +64,17 @@ A better solution is to call the mapbox via modal page as it's called in search 
 
 ***
 
+
+***
+UPDATE 10 April 2018
+
+the modal page solution doesn't work in android. Tested to add the map programatically and use the hide and unhide property.
+It works good in ios, it doesn't add any memory because the map is created once. In android it does not work when you change the page.
+
+To test it go from the home page to search page, click on the actionBar map's icon, first time you'll see the map, click on the menu on the top left the hide property is called, go to settings page and back to search, click again you'll see the map (in this page is just using hide and unhide). In android the same behaviour is not replied, you'll see the first time the map and the click on the map's icon is playing with hide/unhide (of the local page mapbox) - click on the menù will set the unhide to the app.component map and the current one; the click again will fires the unhide on the app.component map but it won't appear.
+
+In featured page it works little different, when you click on the menu icon the destroy fuction is called; it will work logically but the every time the map is called the show function is also and the memory will increase as usual.
+
+
+Still looking to a good solution...
+***

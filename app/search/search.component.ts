@@ -142,7 +142,9 @@ export class SearchComponent implements OnInit {
     hideAll() {
         console.log("searchPg - hideAll");
         
-        this.mapboxFromAppComp.hide();
-        this.shared.mapboxCode.hide();
+        if(this.shared.mapLoaded) {
+            this.mapboxFromAppComp.hide();
+            this.shared.mapboxCode.hide();
+        }
     }
 }
