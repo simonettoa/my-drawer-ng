@@ -1,11 +1,11 @@
 
-import { Component, ViewChild, ElementRef, OnInit } from "@angular/core";
+import { Component, ViewChild, ElementRef, OnInit, OnDestroy } from "@angular/core";
 import { ModalDialogParams } from "nativescript-angular/directives/dialogs";
 
 import { isAndroid } from "platform";
 let appSettings = require("application-settings");
 import { LatLng, AppComponent } from "../../app.component";
-import { Mapbox } from "nativescript-mapbox";
+import { Mapbox, MapStyle } from "nativescript-mapbox";
 
 @Component({
     selector: "my-modal",
@@ -13,12 +13,13 @@ import { Mapbox } from "nativescript-mapbox";
     templateUrl: "./modal-map-page.html",
     styleUrls: ["./modal-map-page-common.css"],
 })
-export class ModalMapComponent implements OnInit {
+export class ModalMapComponent implements OnInit, OnDestroy {
+/*
     @ViewChild("map") mapboxRef: ElementRef;
     private get mapbox(): Mapbox {
         return this.mapboxRef.nativeElement;
     }
-
+*/
     resFromPg: any;
     arrayPoints: Array<LatLng> = new Array<LatLng>();
     currLongitude: number = 0;
@@ -26,6 +27,7 @@ export class ModalMapComponent implements OnInit {
     shared: AppComponent;
     screenHeight: number = 550;
     screenWidth: number = 300;
+    mapboxFromAppComp: Mapbox;
 
     constructor(private params: ModalDialogParams,
                 private _shared: AppComponent) {
@@ -34,11 +36,18 @@ export class ModalMapComponent implements OnInit {
         this.resFromPg = this.params.context.fromTo;
 
         // console.log("modal-pg screenHeight " + this.screenHeight + " | screenWidth " + this.screenWidth);
-        this.shared = _shared;
+        this.shared = _shared;  
     }
 
 
     ngOnInit(): void {
+        this.shared.loadMap();
+        
+        setTimeout(() => {
+            this.mapboxFromAppComp = this.shared.mapboxCode;    
+        }, 500);
+
+
         // init elements based on 'type'
         this.initElements(this.params.context.fromTo, this.params.context.value);
     }
@@ -49,7 +58,7 @@ export class ModalMapComponent implements OnInit {
         switch(this.resFromPg) {
             case 1:
                 // destroy the map and launch the GC
-                this.mapbox.destroy();
+                // this.mapbox.destroy();
                 this.shared.startGarbageCollection();
 
                 this.params.closeCallback();
@@ -102,6 +111,7 @@ export class ModalMapComponent implements OnInit {
     getUserPosition() {
 
         setTimeout(() => {
+/*
             this.mapbox.getUserLocation().then((userLocation) => {
 
                 console.log("Current user location: " +  userLocation.location.lat + ", " + userLocation.location.lng);
@@ -110,13 +120,14 @@ export class ModalMapComponent implements OnInit {
                 this.currLatitude = userLocation.location.lat;
                 this.currLongitude = userLocation.location.lng; 
                 
-                this.addMarkers();
+                // this.addMarkers();
     
             }, (error) => {
                 console.log("error getting position - still load the poi");
 
-                this.addMarkers();
+                // this.addMarkers();
             });
+*/            
         }, 1500);
 
     }
@@ -126,7 +137,7 @@ export class ModalMapComponent implements OnInit {
         
         setTimeout(() => {
             console.log("add markers!");
-
+/*
             this.arrayPoints.forEach((p) => {
                 this.mapbox.addMarkers([
                 {
@@ -134,7 +145,7 @@ export class ModalMapComponent implements OnInit {
                     lng: p.lng,
                 }]);
             });
-
+*/
             this.setViewPort();
         }, 500);
     }
@@ -163,7 +174,7 @@ export class ModalMapComponent implements OnInit {
         let minLon = Math.min(...longs) - shift;
 
         console.log("mLat " + maxLat + " |mLon " + maxLon + " | minLat " + minLat + " | minLon " + minLon);
-
+/*
         this.mapbox.setViewport({
             bounds: {
                 north: maxLat,
@@ -173,6 +184,19 @@ export class ModalMapComponent implements OnInit {
             },
             animated: true
         });
+*/
     } 
 
+    ngOnDestroy() {
+        console.log("*** modal-pg.ngOnDestroy - destroy map!");
+        
+        // this.mapbox.destroy();
+    }
+
+
+    test() {
+        // const aaa: Mapbox = this.mapboxRef.nativeElement;
+
+        console.log("test clicked");
+    }
 }

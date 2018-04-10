@@ -10,6 +10,9 @@
         ios.position="left">
     </ActionItem>
     <Label class="action-bar-title" text="Search"></Label>
+
+    <ActionItem icon="res://map_icon" ios.position="right" android.position="right" (tap)="hideShowMap()"></ActionItem>
+
 </ActionBar>
 
 <!--
@@ -31,8 +34,15 @@ it shouldn't have any other siblings other than the <ActionBar> component.
     Use the tkMainContent directive to display the content of the page when you have an app drawer.
     -->
     <GridLayout class="page page-content" tkMainContent>
-        <Button text="open map modal page" (tap)="openModalMap()">
 
-        </Button>
+        <StackLayout>
+            <!--
+            <Button text="open map modal page" (tap)="openModalMap()"> </Button>
+
+            <Button text="show map" (tap)="showMap()"> </Button>
+            -->
+        </StackLayout>
+
+        
     </GridLayout>
 </RadSideDrawer>

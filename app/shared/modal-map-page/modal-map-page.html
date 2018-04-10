@@ -3,11 +3,13 @@
 
     <StackLayout>
         <Button text="DONE" (tap)="closeModal()" class="custom-button"></Button>
+        <Button text="test" (tap)="test()" class="custom-button"></Button>
     </StackLayout>
     
 
     <StackLayout row="1">
         <ContentView height="98%" width="98%" >
+<!--
             <Mapbox
                 #map
                 accessToken="your-token"
@@ -23,6 +25,7 @@
                 disableTilt="false"
                 (mapReady)="onMapReady($event)">
             </Mapbox>
+        -->            
         </ContentView>
     </StackLayout>
 
