@@ -1,10 +1,12 @@
 import { Component, OnInit } from "@angular/core";
 
 import * as utils from "utils/utils";
-
-
 import { Mapbox, MapStyle } from "nativescript-mapbox";
 import { isAndroid } from "platform";
+
+
+let ACCESS_TOKEN = 
+  "";
 
 @Component({
     selector: "ns-app",
@@ -58,7 +60,7 @@ export class AppComponent implements OnInit {
             this.mapLoaded = true;
 
             this.mapboxCode.show({
-                accessToken: "your-token",
+                accessToken: ACCESS_TOKEN,
                 style: MapStyle.OUTDOORS,
                 margins: {
                     left: 3,

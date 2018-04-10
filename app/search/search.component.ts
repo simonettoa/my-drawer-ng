@@ -5,7 +5,7 @@ import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 import { LatLng, AppComponent } from "../app.component";
 import { ModalDialogService } from "nativescript-angular/directives/dialogs";
 import { ModalMapComponent } from "../shared/modal-map-page/modal-map-page";
-import platformModule = require("platform");
+
 import { Mapbox } from "nativescript-mapbox";
 import * as utils from "utils/utils";
 import { Page } from "ui/page";
@@ -27,7 +27,6 @@ export class SearchComponent implements OnInit {
     thisPage: Page;
 
     constructor(private vcRef: ViewContainerRef,
-                private modal: ModalDialogService,
                 private _shared: AppComponent) {
 
         this.shared = _shared;  
@@ -58,6 +57,7 @@ export class SearchComponent implements OnInit {
 
     
     openModalMap() {
+/*        
         // 
         let value = new Array<LatLng>();
 
@@ -77,13 +77,18 @@ export class SearchComponent implements OnInit {
                 console.log("modal map page closed!!");
             }
         });
+*/
     }
 
     hideShowMap() {
+
+        let value = new Array<LatLng>();
+        value.push(new LatLng(50.477735, 13.437718), new LatLng(50.452, 13.41),);
+
         // first entry in the page load or get the page from app.component
         if(!this.firstLoadPage) {
             this.firstLoadPage = true;
-            console.log("hideShowMap - first loadgin");
+            console.log("hideShowMap - first loading");
 
             this.showMap();
         } else {
@@ -109,14 +114,6 @@ export class SearchComponent implements OnInit {
     showMap() {
         // first time load from app.component
         this.mapshowing = true;
-
-/*        
-        this.shared.loadMap();
-    
-        setTimeout(() => {
-            this.mapboxFromAppComp = this.shared.mapboxCode;
-        }, 500);
-*/
 
         if(!this.shared.mapLoaded) {
             this.shared.loadMap();
