@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, OnInit, ViewChild, ElementRef } from "@angular/core";
 import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-ui/sidedrawer";
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
@@ -17,13 +17,21 @@ export class HomeComponent implements OnInit {
     *************************************************************/
     @ViewChild("drawer") drawerComponent: RadSideDrawerComponent;
 
+    /*
+    @ViewChild("actionBara") actionbarRef: ElementRef;
+    private get actionBara(): ActionBar {
+        return this.actionbarRef.nativeElement;
+    }
+*/
+
     private _sideDrawerTransition: DrawerTransitionBase;
     shared: AppComponent;
+    mapLoaded: boolean = false;
+    
 
     constructor(private _shared: AppComponent) {
         this.shared = _shared;
 
-        console.log("app.component - doTheGargbageCollection -> " + this.shared.doTheGargbageCollection);
     }
     /* ***********************************************************
     * Use the sideDrawerTransition property to change the open/close animation of the drawer.
@@ -42,13 +50,36 @@ export class HomeComponent implements OnInit {
     *************************************************************/
     onDrawerButtonTap(): void {
         this.drawerComponent.sideDrawer.showDrawer();
+
+        // hide the map (if exists)
+        if(this.shared.mapboxCode) {
+            this.shared.mapboxCode.hide().then((res) => {
+                console.log("browsePg - hide map");
+            });
+            this.mapLoaded = false;
+        }
     }
 
     changeGcStatus() {
         this.shared.changeGcStatus();
+
     }
 
     forceGc() {
         this.shared.startGarbageCollection();
+    }
+
+    hideShowMap() {
+        if(this.mapLoaded) {
+            this.shared.mapboxCode.hide().then((res) => {
+                console.log("browsePg - hide map");
+            });
+
+            this.mapLoaded = false;
+
+        } else {
+            this.mapLoaded = true;
+            this.shared.showMap();
+        }
     }
 }

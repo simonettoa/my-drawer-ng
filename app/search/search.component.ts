@@ -25,6 +25,7 @@ export class SearchComponent implements OnInit {
     mapshowing: boolean = false;
     firstLoadPage: boolean = false;
     thisPage: Page;
+    mapLoaded: boolean = false;
 
     constructor(private vcRef: ViewContainerRef,
                 private _shared: AppComponent) {
@@ -37,11 +38,13 @@ export class SearchComponent implements OnInit {
     ngOnInit(): void {
         this._sideDrawerTransition = new SlideInOnTopTransition();
 
-        let heightBar = utils.layout.toDeviceIndependentPixels(this.thisPage.actionBar.getMeasuredHeight());
+        setTimeout(() => {
+            let heightBar = utils.layout.toDeviceIndependentPixels(this.thisPage.actionBar.getMeasuredHeight());
 
-        console.log("search.OnInit - heightBar " + heightBar);
+            console.log("search.OnInit - heightBar " + heightBar);
 
-        this.shared.actionHeight = heightBar;
+            this.shared.actionHeight = heightBar;
+        }, 1000);
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {
@@ -51,8 +54,13 @@ export class SearchComponent implements OnInit {
     onDrawerButtonTap(): void {
         this.drawerComponent.sideDrawer.showDrawer();
 
-        // hide the app.component map and the current map
-        this.hideAll();
+        // hide the map (if exists)
+        if(this.shared.mapboxCode) {
+            this.shared.mapboxCode.hide().then((res) => {
+                console.log("browsePg - hide map ");
+            });
+            this.mapLoaded = false;
+        }
     }
 
     
@@ -82,28 +90,21 @@ export class SearchComponent implements OnInit {
 
     hideShowMap() {
 
-        let value = new Array<LatLng>();
-        value.push(new LatLng(50.477735, 13.437718), new LatLng(50.452, 13.41),);
+        let tmpArr = new Array<LatLng>();
+        tmpArr.push(new LatLng(50.477735, 13.437718), new LatLng(50.4777, 13.41),);
+        // tmpArr.push(new LatLng(46.458254,11.312446), new LatLng(46.458254,11.352446));
+        this.shared.addNewMarkers(tmpArr);
+        
+        if(this.mapLoaded) {
+            this.shared.mapboxCode.hide().then((res) => {
+                console.log("searchPg - hide map");
+            });
 
-        // first entry in the page load or get the page from app.component
-        if(!this.firstLoadPage) {
-            this.firstLoadPage = true;
-            console.log("hideShowMap - first loading");
+            this.mapLoaded = false;
 
-            this.showMap();
         } else {
-            if(this.mapshowing) {
-                console.log("searchPg.hideShowMap - hide local map!");
-                this.mapshowing = false;
-    
-                this.hideMap();
-    
-            } else {
-                this.mapshowing = true;
-    
-                console.log("searchPg.hideShowMap - show local map!");
-                this.showLocalMap();
-            }
+            this.mapLoaded = true;
+            this.shared.showMap();
         }
     }
 
@@ -111,40 +112,4 @@ export class SearchComponent implements OnInit {
         this.mapboxFromAppComp.unhide();
     }
 
-    showMap() {
-        // first time load from app.component
-        this.mapshowing = true;
-
-        if(!this.shared.mapLoaded) {
-            this.shared.loadMap();
-        
-            setTimeout(() => {
-                this.mapboxFromAppComp = this.shared.mapboxCode;    
-            }, 500);
-
-        } else {
-            console.log("searchPG - map already loaded!");
-
-            setTimeout(() => {
-                this.shared.mapboxCode.unhide();
-
-                this.mapboxFromAppComp = this.shared.mapboxCode;    
-            }, 500);
-        }
-       
-    }
-
-    hideMap() {
-        // this.shared.hideCurrMap();
-        this.mapboxFromAppComp.hide();
-    }
-
-    hideAll() {
-        console.log("searchPg - hideAll");
-        
-        if(this.shared.mapLoaded) {
-            this.mapboxFromAppComp.hide();
-            this.shared.mapboxCode.hide();
-        }
-    }
 }

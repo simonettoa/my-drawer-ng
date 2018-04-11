@@ -3,7 +3,11 @@ import { DrawerTransitionBase, SlideInOnTopTransition } from "nativescript-pro-u
 import { RadSideDrawerComponent } from "nativescript-pro-ui/sidedrawer/angular";
 
 import { Mapbox } from "nativescript-mapbox";
-import { LatLng } from "../app.component";
+import { LatLng, AppComponent } from "../app.component";
+import { ActionBar } from "ui/action-bar";
+import { Page } from "ui/page";
+import frame = require("ui/frame");
+import * as utils from "utils/utils";
 
 @Component({
     selector: "Browse",
@@ -22,8 +26,30 @@ export class BrowseComponent implements OnInit {
     currLongitude: number = 0;
     currLatitude: number = 0;
 
+    mapLoaded: boolean = false;
+    shared: AppComponent;
+    thisPage: Page;
+
+    constructor(private _shared: AppComponent) {
+        this.shared = _shared;
+
+        this.thisPage = <Page>frame.topmost().currentPage;
+    }
+
     ngOnInit(): void {
         this._sideDrawerTransition = new SlideInOnTopTransition();
+
+        setTimeout(() => {
+            if(this.thisPage.actionBar) {
+                let heightBar = utils.layout.toDeviceIndependentPixels(this.thisPage.actionBar.getMeasuredHeight());
+
+                console.log("features.OnInit - heightBar " + heightBar);
+                this.shared.actionHeight = heightBar;            
+            } else {
+                console.log("features.OnInit - actionBar not defined!");
+            }
+            
+        }, 1000);
     }
 
     get sideDrawerTransition(): DrawerTransitionBase {
@@ -32,6 +58,14 @@ export class BrowseComponent implements OnInit {
 
     onDrawerButtonTap(): void {
         this.drawerComponent.sideDrawer.showDrawer();
+
+        // hide the map (if exists)
+        if(this.shared.mapboxCode) {
+            this.shared.mapboxCode.hide().then((res) => {
+                console.log("browsePg - hide map ");
+            });
+            this.mapLoaded = false;
+        }
     }
 
     onMapReady(args: any) {
@@ -119,4 +153,23 @@ export class BrowseComponent implements OnInit {
             animated: true
         });
     } 
+
+    hideShowMap() {
+        let tmpArr = new Array<LatLng>();
+        tmpArr.push(new LatLng(50.470735, 13.437718), new LatLng(50.452, 13.437718),);
+        // tmpArr.push(new LatLng(46.478254,11.352446), new LatLng(46.478254,11.372446));
+        this.shared.addNewMarkers(tmpArr);
+
+        if(this.mapLoaded) {
+            this.shared.mapboxCode.hide().then((res) => {
+                console.log("browsePg - hide map ");
+            });
+
+            this.mapLoaded = false;
+
+        } else {
+            this.mapLoaded = true;
+            this.shared.showMap();
+        }
+    }
 }

@@ -1,4 +1,4 @@
-<ActionBar class="action-bar">
+<ActionBar class="action-bar" title="">
     <!-- 
     Use the NavigationButton as a side-drawer button in Android because ActionItems are shown on the right side of the ActionBar
     -->
@@ -10,8 +10,9 @@
         ios.position="left">
     </ActionItem>
     <Label class="action-bar-title" text="Featured"></Label>
-
+<!--
     <ActionItem icon="res://map_icon" ios.position="right" android.position="right" (tap)="hideShowMap()"></ActionItem>
+-->
 </ActionBar>
 
 <!--
@@ -21,7 +22,7 @@ http://docs.telerik.com/devtools/nativescript-ui/Controls/Angular/SideDrawer/get
 The RadSideDrawer component is designed to be used as a root element and
 it shouldn't have any other siblings other than the <ActionBar> component.
 -->
-<RadSideDrawer #drawer showOverNavigation="true" [drawerTransition]="sideDrawerTransition">
+<RadSideDrawer #drawer showOverNavigation="false" [drawerTransition]="sideDrawerTransition">
     <!--
     Use the tkDrawerContent directive to display the content of the app drawer on this page.
     -->
@@ -37,5 +38,9 @@ it shouldn't have any other siblings other than the <ActionBar> component.
         <Label class="page-icon fa" text="&#xf005;"></Label>
         <Label class="page-placeholder" text=" Page content goes here "></Label>
     -->
+        <StackLayout>
+            <Button text="test" (tap)="test()" ></Button>
+        </StackLayout>
+        
     </GridLayout>
 </RadSideDrawer>

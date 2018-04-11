@@ -39,12 +39,12 @@ export class MyDrawerItemComponent implements OnInit {
     * based on the tapped navigationItem's route.
     *************************************************************/
     onNavItemTap(navItemRoute: string): void {
-
+/*
         // if coming from browse start the gc
         if(this.shared.currentPage === "/browse") {
             this.shared.startGarbageCollection();
         }
-
+*/
         this.shared.currentPage = navItemRoute;
 
         this.routerExtensions.navigate([navItemRoute], {

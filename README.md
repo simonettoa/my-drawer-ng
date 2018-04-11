@@ -62,8 +62,6 @@ UPDATE
 
 A better solution is to call the mapbox via modal page as it's called in search page - the utils.gc() function has to be called (test it with or without setting the variable from the home page)
 
-***
-
 
 ***
 UPDATE 10 April 2018
@@ -77,4 +75,11 @@ In featured page it works little different, when you click on the menu icon the 
 
 
 Still looking to a good solution...
+
+
 ***
+SOLUTION FOUND:
+
+Bascially to make it work also in android the solution was to change in app.component.html from page-outer-outlet to outer-outlet. Connected with this change is also necessary to fix some stuff in order to have the graphic appears correct.
+
+Right now from the gome page and going to browse or search page you'll see a map icon on right-top, clicking it the map will appear with two markers. Going to the other page will hide the map and going to the other page the map will appear and different markers will appear

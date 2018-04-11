@@ -1,4 +1,4 @@
-<ActionBar class="action-bar">
+<ActionBar class="action-bar" title="">
     
     <NavigationButton ios:visibility="collapsed" icon="res://menu" (tap)="onDrawerButtonTap()"></NavigationButton>
     
@@ -6,34 +6,17 @@
         ios.position="left">
     </ActionItem>
     <Label class="action-bar-title" text="Browse"></Label>
+
+    <ActionItem icon="res://map_icon" ios.position="right" android.position="right" (tap)="hideShowMap()"></ActionItem>
 </ActionBar>
 
-<RadSideDrawer #drawer showOverNavigation="true" [drawerTransition]="sideDrawerTransition">
+<RadSideDrawer #drawer showOverNavigation="false" [drawerTransition]="sideDrawerTransition">
     <StackLayout tkDrawerContent>
         <MyDrawer [selectedPage]="'Browse'"></MyDrawer>
     </StackLayout>
     
     <GridLayout class="page page-content" tkMainContent>
         
-        <ContentView height="99%" 
-            width="99%">
-
-            <Mapbox
-                #map
-                accessToken="your-token"
-                mapStyle="outdoors"
-                hideCompass="false"
-                zoomLevel="12"
-                showUserLocation="true"
-                hideLogo="true"
-                disableZoom="false"
-                hideAttribution="true"
-                disableRotation="false"
-                disableScroll="false"
-                disableTilt="false"
-                (mapReady)="onMapReady($event)">
-            </Mapbox>
-        </ContentView>
-
+        
     </GridLayout>
 </RadSideDrawer>
