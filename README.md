@@ -78,8 +78,8 @@ Still looking to a good solution...
 
 
 ***
-SOLUTION FOUND:
+SOLUTION FOUND!!!
 
-Bascially to make it work also in android the solution was to change in app.component.html from page-outer-outlet to outer-outlet. Connected with this change is also necessary to fix some stuff in order to have the graphic appears correct.
+Basically to make it work also in android the solution was to change in app.component.html from page-outer-outlet to outer-outlet. Connected with this change is also necessary to fix some stuff in order to have the graphic to appear properly.
 
-Right now from the gome page and going to browse or search page you'll see a map icon on right-top, clicking it the map will appear with two markers. Going to the other page will hide the map and going to the other page the map will appear and different markers will appear
+Right now from the home page and going to browse or search page you'll see a map icon on right-top, clicking on it and the map will appear with two markers. Going to the another page will hide the map and going to the search page and clicking on the map's icon the map will appear and different markers.

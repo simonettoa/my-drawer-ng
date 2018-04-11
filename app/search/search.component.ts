@@ -92,7 +92,7 @@ export class SearchComponent implements OnInit {
 
         let tmpArr = new Array<LatLng>();
         tmpArr.push(new LatLng(50.477735, 13.437718), new LatLng(50.4777, 13.41),);
-        // tmpArr.push(new LatLng(46.458254,11.312446), new LatLng(46.458254,11.352446));
+        
         this.shared.addNewMarkers(tmpArr);
         
         if(this.mapLoaded) {

@@ -157,7 +157,7 @@ export class BrowseComponent implements OnInit {
     hideShowMap() {
         let tmpArr = new Array<LatLng>();
         tmpArr.push(new LatLng(50.470735, 13.437718), new LatLng(50.452, 13.437718),);
-        // tmpArr.push(new LatLng(46.478254,11.352446), new LatLng(46.478254,11.372446));
+        
         this.shared.addNewMarkers(tmpArr);
 
         if(this.mapLoaded) {
